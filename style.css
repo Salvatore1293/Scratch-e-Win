@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to bottom right, #00aaff, #0077cc);
+    height: 100vh;
+    overflow: hidden;
+    /* Nasconde eventuali elementi fuori dallo schermo */
+}
+
+.game-container {
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    /* Disposizione verticale */
+}
+
+.scratch-wrapper {
+    position: relative;
+    z-index: 10;
+    /* Sta sopra le monete che cadono */
+}
+
+.scratch-card {
+    position: relative;
+    width: min(90vw, 360px);
+    /* Responsiva: massimo 360px */
+    aspect-ratio: 16 / 11;
+    border-radius: 12px;
+    /* Angoli arrotondati */
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    /* Ombra esterna */
+    margin: 0 auto 20px;
+    /* Spazio sotto e centratura */
+}
+
+#background-image,
+#scratch-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    display: block;
+}
+
+#scratch-canvas {
+    z-index: 2;
+    background-color: transparent;
+    pointer-events: auto;
+}
+
+#restart-btn {
+    padding: 10px 20px;
+    background-color: #ccc;
+    /* Colore disabilitato iniziale */
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    /* Effetti transizione */
+}
+
+/* Stile quando il bottone è attivo */
+#restart-btn.enabled {
+    background-color: #ffcc00;
+    cursor: pointer;
+}
+
+/* Effetto luminoso al passaggio */
+#restart-btn.enabled:hover {
+    background-color: #ffe066;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+/* Contenitori per monete che cadono */
+.falling-background,
+.falling-items {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Oggetti animati */
+.item,
+.falling-item {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: -50px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
