@@ -4,7 +4,6 @@ body {
     background: linear-gradient(to bottom right, #00aaff, #0077cc);
     height: 100vh;
     overflow: hidden;
-    /* Nasconde eventuali elementi fuori dallo schermo */
 }
 
 .game-container {
@@ -15,27 +14,21 @@ body {
     align-items: center;
     height: 100%;
     flex-direction: column;
-    /* Disposizione verticale */
 }
 
 .scratch-wrapper {
     position: relative;
     z-index: 10;
-    /* Sta sopra le monete che cadono */
 }
 
 .scratch-card {
     position: relative;
     width: min(90vw, 360px);
-    /* Responsiva: massimo 360px */
     aspect-ratio: 16 / 11;
     border-radius: 12px;
-    /* Angoli arrotondati */
     overflow: hidden;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    /* Ombra esterna */
     margin: 0 auto 20px;
-    /* Spazio sotto e centratura */
 }
 
 #background-image,
@@ -58,28 +51,23 @@ body {
 #restart-btn {
     padding: 10px 20px;
     background-color: #ccc;
-    /* Colore disabilitato iniziale */
     border: none;
     border-radius: 5px;
     cursor: not-allowed;
     font-weight: bold;
     transition: background-color 0.3s, box-shadow 0.3s;
-    /* Effetti transizione */
 }
 
-/* Stile quando il bottone è attivo */
 #restart-btn.enabled {
     background-color: #ffcc00;
     cursor: pointer;
 }
 
-/* Effetto luminoso al passaggio */
 #restart-btn.enabled:hover {
     background-color: #ffe066;
     box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
 }
 
-/* Contenitori per monete che cadono */
 .falling-background,
 .falling-items {
     position: fixed;
@@ -91,7 +79,6 @@ body {
     pointer-events: none;
 }
 
-/* Oggetti animati */
 .item,
 .falling-item {
     position: absolute;
@@ -108,4 +95,20 @@ body {
         transform: translateY(120vh) rotate(360deg);
         opacity: 0;
     }
+}
+
+/* Messaggio di vincita/perdita */
+#result-message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.5s ease;
+}
+
+.hidden {
+    display: none;
 }

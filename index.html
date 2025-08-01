@@ -1,32 +1,32 @@
-<!DOCTYPE html> 
-<html lang="it"> 
+<!DOCTYPE html>
+<html lang="it">
 
 <head>
-    <meta charset="UTF-8" /> 
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Rende la pagina responsiva sui dispositivi mobili -->
-    <title>Scratch e Win</title> 
-    <link rel="stylesheet" href="style.css" /> 
+    <title>Scratch e Win</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <div class="falling-background"></div> <!-- Contenitore per gli oggetti che cadono dietro -->
-    <div class="falling-items"></div> <!-- Contenitore per oggetti decorativi aggiuntivi -->
+    <div class="falling-background"></div>
+    <div class="falling-items"></div>
 
-    <div class="game-container"> <!-- Contenitore principale del gioco -->
-        <h1>🎰 Gratta e Vinci</h1> 
+    <div class="game-container">
+        <h1>🎰 Gratta e Vinci</h1>
 
-        <div class="scratch-wrapper"> <!-- Contenitore per la card e il bottone -->
-            <div class="scratch-card"> <!-- Card da grattare -->
-                <img id="background-image" alt="Premio " /> <!-- Immagine iniziale -->
-                <canvas id="scratch-canvas"></canvas> <!-- Superficie dove si gratta -->
+        <div class="scratch-wrapper">
+            <div class="scratch-card">
+                <img id="background-image" alt="Premio" />
+                <canvas id="scratch-canvas"></canvas>
             </div>
 
-            <button id="restart-btn">🔄 Riprova</button> 
+            <button id="restart-btn">🔄 Riprova</button>
+            <div id="result-message" class="hidden"></div> <!-- Messaggio di vincita/perdita -->
         </div>
     </div>
 
-    <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 
 </html>
