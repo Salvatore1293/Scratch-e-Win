@@ -53,7 +53,9 @@ function revealPrize() {
   canvas.style.pointerEvents = "none";
   if (won) winSound.play();
 
-  resultMessage.textContent = won ? "🎉 Hai vinto!" : "😞 Ritenta!";
+  resultMessage.innerHTML = won
+    ? '<i class="fas fa-gift"></i> Hai vinto!'
+    : '<i class="fas fa-times-circle"></i>  Ritenta!';
   resultMessage.classList.remove("hidden");
 
   setTimeout(() => {

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scratch e Win</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 
 <body>
@@ -13,7 +15,7 @@
     <div class="falling-items"></div>
 
     <div class="game-container">
-        <h1>🎰 Gratta e Vinci</h1>
+        <h1>Gratta e Vinci</h1>
 
         <div class="scratch-wrapper">
             <div class="scratch-card">
@@ -21,7 +23,8 @@
                 <canvas id="scratch-canvas"></canvas>
             </div>
 
-            <button id="restart-btn">🔄 Riprova</button>
+            <button id="restart-btn"> 
+                <i class="fas fa-redo"></i> Riprova</button>
             <div id="result-message" class="hidden"></div> <!-- Messaggio di vincita/perdita -->
         </div>
     </div>
