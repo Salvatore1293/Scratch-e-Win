@@ -2,34 +2,31 @@
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratta e Vinci</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <div class="falling-background"></div>
-    <div class="falling-items"></div>
-
-    <div class="game-container">
+    <div class="container">
         <h1>Gratta e Vinci</h1>
 
-        <div class="scratch-wrapper">
-            <div class="scratch-card">
-                <img id="background-image" alt="Premio" />
-                <canvas id="scratch-canvas"></canvas>
-            </div>
-
-            <button id="restart-btn"> 
-                <i class="fas fa-redo"></i> Riprova</button>
-            <div id="result-message" class="hidden"></div> <!-- Messaggio di vincita/perdita -->
+        <div class="scratch-card">
+            
+            <img id="backgroundImage" alt="Premio">
+            <canvas id="scratchCanvas">
+            </canvas>
         </div>
+        <div id="resultMessage" class="result-message"> 
+        </div>  
+            <button id="resetButton"> 
+                <i class="fas fa-redo"></i>   Riprova
+            </button>
+        
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>

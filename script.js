@@ -1,144 +1,115 @@
-const canvas = document.getElementById("scratch-canvas");
+const canvas = document.getElementById("scratchCanvas");
 const ctx = canvas.getContext("2d");
-const bgImage = document.getElementById("background-image");
-const restartBtn = document.getElementById("restart-btn");
-const resultMsg = document.getElementById("result-message");
-const winSound = new Audio("suono/success-1-6297.mp3");
+const backgroundImage = document.getElementById("backgroundImage");
+const resetButton = document.getElementById("resetButton");
+const resultMessage = document.getElementById
+("resultMessage");
+const WinSound = new Audio("suono/success-1-6297.mp3");
+const LoseSound = new Audio("suono/fail.mp3");
+
 
 let isDrawing = false;
 let isPrizeRevealed = false;
 let hasWon;
-const brushSize = 20;
-const alwaysWin = false;
+const alwaysWin = false; 
+const brushSize = 20; // Size of the brush for scratching
 
 function resizeCanvas() {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 
-  ctx.globalCompositeOperation = "source-over";
+  ctx.globalCompositeOperation = "source-over"; //     Set to normal drawing mode
   ctx.fillStyle = "#999";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvas.width, canvas.height
+  );
 
-  hasWon = alwaysWin || Math.random() < 0.5;
-  bgImage.src = hasWon ? "img/vincita.jpg" : "img/sconfitta.jpg";
-  isPrizeRevealed = false;
-
-  canvas.style.pointerEvents = "auto";
-  disableRestart();
-  resultMsg.classList.add("hidden");
+  hasWon = alwaysWin || Math.random() < 0.5; 
+  backgroundImage.src = hasWon ? "img/vincita.jpg" : "img/sconfitta.jpg";
+  isPrizeRevealed = false; // Reset the prize reveal state
+  canvas.style.pointerEvents = "auto"; disableRestart();
+  resultMessage.classList.remove("visible");
+  resultMessage.classList.add("hidden");
 }
 
-function draw(x, y) {
+function draw(x,y) {
   ctx.globalCompositeOperation = "destination-out";
   ctx.beginPath();
-  ctx.arc(x, y, brushSize, 0, Math.PI * 2);
+  ctx.arc(x,y, brushSize, 0, Math.PI * 2);
   ctx.fill();
 }
 
-function checkRevealProgress() {
-  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+function checkReveal() {
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   let cleared = 0;
 
-  for (let i = 3; i < data.length; i += 4) {
-    if (data[i] === 0) cleared++;
+  for (let i = 3; i < imageData.data.length; i += 4) {
+    if (imageData.data[i] === 0) cleared++;
   }
-
   const revealed = (cleared / (canvas.width * canvas.height)) * 100;
 
   if (revealed > 50 && !isPrizeRevealed) {
     isPrizeRevealed = true;
-    revealPrize();
+      revealPrize();
+    }
   }
-}
 
+  
 function revealPrize() {
+    
   canvas.style.pointerEvents = "none";
 
-  if (hasWon) winSound.play();
+  if (hasWon) { WinSound.play(); }
+  else { LoseSound.play(); }
+  resultMessage.innerHTML = hasWon ? '<i class="fas fa-gift"></i> Congratulazioni! Hai vinto!' : ' <i class="fas fa-times"></i> Ritenta!';
 
-  resultMsg.innerHTML = hasWon
-    ? '<i class="fas fa-gift"></i> Hai vinto!'
-    : '<i class="fas fa-times-circle"></i> Ritenta!';
-  resultMsg.classList.remove("hidden");
-
+  resultMessage.classList.remove("hidden");
+  resultMessage.classList.add("visible");
   setTimeout(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    enableRestart();
-  }, 100);
+    ctx.clearRect(0, 0, canvas.width, canvas.height); enableRestart();
+  }, 200);
 }
 
-function getPointerPos(e) {
+function getPointerPosition(event) {
   const rect = canvas.getBoundingClientRect();
-  const x = e.clientX || e.touches[0].clientX;
-  const y = e.clientY || e.touches[0].clientY;
+  const x = event.clientX || event.touches[0].clientX;
+  const y = event.clientY || event.touches[0].clientY;
   return { x: x - rect.left, y: y - rect.top };
 }
 
-function onMove(e) {
-  if (!isDrawing) return;
-  e.preventDefault();
-  const { x, y } = getPointerPos(e);
+function onMove(event) {
+  if (!isDrawing || isPrizeRevealed) return; // Prevent drawing if not in drawing mode or prize is revealed
+  const { x, y } = getPointerPosition(event);
   draw(x, y);
-  checkRevealProgress();
-}
+  checkReveal();
+} 
 
-// Interazioni
-canvas.addEventListener("mousedown", () => (isDrawing = true));
-canvas.addEventListener("mouseup", () => (isDrawing = false));
+
+canvas.addEventListener("mousedown", () => 
+  (isDrawing = true));
+
+canvas.addEventListener("mouseup", () => 
+  (isDrawing = false));
+
 canvas.addEventListener("mousemove", onMove);
 
-canvas.addEventListener("touchstart", () => (isDrawing = true));
+canvas.addEventListener("touchstart", (event) => (isDrawing = true));
 canvas.addEventListener("touchend", () => (isDrawing = false));
 canvas.addEventListener("touchmove", onMove);
 
-restartBtn.addEventListener("click", resizeCanvas);
+resetButton.addEventListener("click", resizeCanvas);
 
-window.addEventListener("load", () => {
-  bgImage.complete ? resizeCanvas() : (bgImage.onload = resizeCanvas);
-});
 window.addEventListener("resize", resizeCanvas);
 
+window.addEventListener("load", () => { backgroundImage.complete ? resizeCanvas() : backgroundImage.onload = resizeCanvas; });
+
 function enableRestart() {
-  restartBtn.classList.add("enabled");
-  restartBtn.disabled = false;
+  resetButton.classList.add("enabled");
+  resetButton.disabled = false;
 }
 
 function disableRestart() {
-  restartBtn.classList.remove("enabled");
-  restartBtn.disabled = true;
+  resetButton.classList.remove("enabled");
+  resetButton.disabled = true;
 }
 
-// Effetti decorativi (soldi e regali)
-function isOutsideScratchCard(x) {
-  const rect = document.querySelector(".scratch-card").getBoundingClientRect();
-  return x < rect.left || x > rect.right;
-}
-
-function createFallingItem(cls, container, images) {
-  const x = Math.random() * window.innerWidth;
-  if (!isOutsideScratchCard(x)) return;
-
-  const el = document.createElement("div");
-  el.className = cls;
-  el.style.left = `${x}px`;
-  el.style.backgroundImage = `url(${
-    images[Math.floor(Math.random() * images.length)]
-  })`;
-  el.style.animationDuration = `${2 + Math.random() * 3}s`;
-
-  document.querySelector(container).appendChild(el);
-  setTimeout(() => el.remove(), 5000);
-}
-
-setInterval(
-  () => createFallingItem("item", ".falling-items", ["img/soldi.png"]),
-  500
-);
-setInterval(
-  () =>
-    createFallingItem("falling-item", ".falling-background", [
-      "img/soldi.png",
-      "img/regalo.png",
-    ]),
-  400
-);
